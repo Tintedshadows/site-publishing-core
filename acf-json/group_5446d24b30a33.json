@@ -1,0 +1,68 @@
+{
+    "key": "group_5446d24b30a33",
+    "title": "Article",
+    "fields": [
+        {
+            "key": "field_53dbc01d43dbb",
+            "label": "Author",
+            "name": "author",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "formatting": "none",
+            "maxlength": "",
+            "readonly": 0,
+            "disabled": 0
+        },
+        {
+            "key": "field_53dbc04143dbd",
+            "label": "Issue",
+            "name": "issue",
+            "type": "post_object",
+            "instructions": "Issue this article belongs to",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "issue"
+            ],
+            "taxonomy": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "return_format": "object",
+            "ui": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "article"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "modified": 1553699895
+}

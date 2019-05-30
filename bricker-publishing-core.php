@@ -279,6 +279,7 @@ function issue_links_shortcode() {
 add_shortcode( 'issuefilelinks', 'issue_links_shortcode' );
 
 
+
 function current_issue_links_shortcode() {
 
 	ob_start();
@@ -305,7 +306,16 @@ function current_issue_links_shortcode() {
           <div class="col-md-12 col-sm-12 col-xs-12 pt-cv-content-item pt-cv-1-col" data-pid="1799">
             <div class="pt-cv-ifield">
               <div class="pt-cv-title">
-                <?php $metaData = str_replace('http://w6g.a55.myftpupload.com/issue/','http://w6g.a55.myftpupload.com/wp-content/issues/', $metaData); ?>
+				  
+                <?php 
+				$oldURL =  get_site_url() .'/wp-content/issues/';
+						
+				$newURL = get_site_url() .'/issue/';
+						
+				$metaData = str_replace($newURL, $oldURL, $metaData); 
+				 	  
+				  ?>
+			
 
               <?php echo '<a href="'. $metaData .'index.html#p='. $pageNumber .'" target="_blank">'; ?>
                   <?php echo $aPostsToSelect->post_title; ?>
@@ -328,6 +338,7 @@ function current_issue_links_shortcode() {
 
 	return ob_get_clean();
 }
+
 
 add_shortcode( 'currentissuefilelinks', 'current_issue_links_shortcode' );
 

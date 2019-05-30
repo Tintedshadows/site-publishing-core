@@ -158,62 +158,76 @@ function issue_register_ref_page() {
 }
 
 function issue_links_years_shortcode($atts, $year) {
+	
 	ob_start();
-
+	
 	$a = shortcode_atts( array(
 		'year' => '2018',
 	), $atts );
-
+	
 	$pastYear = intval($a['year']) - 1;
 
   ?>
-  <?php
-
+  <?php 
+	
 	$args_array = array(
-		'post_type' => 'issue',
-		'category' => '17',
+		'post_type' => 'post',
 		'date_query' => array(
-			'relation' => 'OR',
-			array('year' => $a['year']),
+			'after' => date('Y-m-d', strtotime("01/01/". $a['year'])),
+			'inclusive' => true,
 		),
-	);
- $getPostsToSelect = get_posts($args_array);
-  $url = $_SERVER['SERVER_NAME'];
+		'numberposts' => '-1',
+	);	
+ $getPostsToSelect = get_posts($args_array );
 
   ?>
 
 <p><?php echo $a['year']; ?></p>
-<p>
-	<?php echo $pastYear;?>
-</p>
+
 <div class="pt-cv-wrapper"><br>
+	<div class="pt-cv-page">
   <?php
-
+	
   foreach ($getPostsToSelect as $aPostsToSelect) {
-?>
 
+	$metaData = get_post_meta($aPostsToSelect->ID, '_wporg_meta_key', true );
 
-
-	<div data-id="pt-cv-page-1" class="pt-cv-page" >
-		<div class="col-md-3 col-sm-4 col-xs-6 pt-cv-content-item pt-cv-1-col">
+	$oldURL =  get_site_url() .'/wp-content/issues/';
+						
+	$newURL = get_site_url() .'/issue/';
+						
+	$metaData = str_replace($newURL, $oldURL, $metaData); 
+	  
+	  if($metaData != ''){ 
+		?>
+		
+	
+		<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
 			<div class="pt-cv-ifield">
-				<a href="http://w6g.a55.myftpupload.com/issue/nursery-issue-july-aug-2018/" class="_self pt-cv-href-thumbnail pt-cv-thumb-default cvplbd" target="_self">
-					<img width="198" height="260" src="https://secureservercdn.net/50.62.175.49/w6g.a55.myftpupload.com/wp-content/uploads/2018/06/March-April-2019.jpg?time=1555512534" class="pt-cv-thumbnail img-none" alt="March April 2019 Issue"></a>
+				  
+				<a href="<?php echo get_permalink( $aPostsToSelect->ID ) ?>" class="_self pt-cv-href-thumbnail pt-cv-thumb-default cvplbd" target="_self">
+					<?php echo '<img src="'. get_the_post_thumbnail_url($aPostsToSelect->ID,'full').'"class="pt-cv-thumbnail img-none" rel="lightbox" />'; 
+            			the_post_thumbnail();
+					?>	
+				</a>
 				<div class="pt-cv-ctf-list" data-cvc="1">
 					<div class="col-md-12 pt-cv-ctf-column">
 						<div class="pt-cv-custom-fields pt-cv-ctf-month">
-							<div class="pt-cv-ctf-value">June/July</div>
+							<?php echo '<a href="'. get_permalink( $aPostsToSelect->ID ) .'" target="_blank">'; ?>		
+								<div class="pt-cv-ctf-value"><?php echo $aPostsToSelect->post_title; ?></div>
+							<?php echo '</a>'; ?>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
 
 <?php
-
+	 }	  
+  
   } ?>
+	</div>
 </div>
 
 
@@ -252,7 +266,14 @@ function issue_links_shortcode() {
           <div class="col-md-12 col-sm-12 col-xs-12 pt-cv-content-item pt-cv-1-col" data-pid="1799">
             <div class="pt-cv-ifield">
               <div class="pt-cv-title">
-                <?php $metaData = str_replace('http://w6g.a55.myftpupload.com/issue/','http://w6g.a55.myftpupload.com/wp-content/issues/', $metaData); ?>
+                    <?php 
+				$oldURL =  get_site_url() .'/wp-content/issues/';
+						
+				$newURL = get_site_url() .'/issue/';
+						
+				$metaData = str_replace($newURL, $oldURL, $metaData); 
+				 	  
+				  ?>
 
               <?php echo '<a href="'. $metaData .'index.html#p='. $pageNumber .'" target="_blank">'; ?>
                   <?php echo $aPostsToSelect->post_title; ?>
@@ -277,7 +298,6 @@ function issue_links_shortcode() {
 }
 
 add_shortcode( 'issuefilelinks', 'issue_links_shortcode' );
-
 
 
 function current_issue_links_shortcode() {
@@ -339,7 +359,6 @@ function current_issue_links_shortcode() {
 	return ob_get_clean();
 }
 
-
 add_shortcode( 'currentissuefilelinks', 'current_issue_links_shortcode' );
 
 /**
@@ -371,7 +390,7 @@ function issues_ref_page_callback() {
 
 
 
-class PluginCore {
+class BrickerCore {
 
 	function __construct() {
 
@@ -597,4 +616,4 @@ class PluginCore {
 
 }
 
-$PluginCore = new PluginCore();
+$BrickerCore = new BrickerCore();
